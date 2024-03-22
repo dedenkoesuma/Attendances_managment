@@ -11,7 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        //
+        Schema::create('leaves_types', function (Blueprint $table) {
+            $table->id();
+            $table->string('leaves_type');
+            $table->string('description');
+            $table->integer('quota');
+            $table->timestamps();
+        });
     }
 
     /**
@@ -19,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::dropIfExists('leaves_types');
     }
 };
