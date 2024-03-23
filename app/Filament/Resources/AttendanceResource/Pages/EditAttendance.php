@@ -5,6 +5,8 @@ namespace App\Filament\Resources\AttendanceResource\Pages;
 use App\Filament\Resources\AttendanceResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
+use Filament\Pages\Actions\Action;
+use App\Models\AttendanceReport;
 
 class EditAttendance extends EditRecord
 {
@@ -13,10 +15,15 @@ class EditAttendance extends EditRecord
     {
         return $data;
     }
+    protected function afterSave(): void
+    {
+        $this->redirect(AttendanceResource::getUrl('index'));
+    }
 
     protected function getHeaderActions(): array
     {
         return [
+            Action::make('back')->label(__('Back'))->url(AttendanceResource::getUrl('index')),
             Actions\DeleteAction::make(),
         ];
     }

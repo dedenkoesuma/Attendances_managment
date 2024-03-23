@@ -18,7 +18,7 @@ return new class extends Migration
             $table->date('date');
             $table->time('time_in')->nullable();
             $table->time('time_out')->nullable();
-            $table->enum('absen_type', ['time_in', 'time_out']);
+            $table->string('absen_type');
             $table->enum('status', ['hadir', 'terlambat']);
             $table->timestamps();
         });

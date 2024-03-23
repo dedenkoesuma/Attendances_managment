@@ -13,11 +13,13 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TimePicker;
+use Filament\Tables\Columns\TextColumn;
 
 class AttendanceResource extends Resource
 {
@@ -36,8 +38,8 @@ class AttendanceResource extends Resource
 
                 Select::make('absen_type')
                     ->options([
-                        'time_in' => 'Absen Masuk',
-                        'time_out' => 'Absen Keluar',
+                        'masuk' => 'Absen Masuk',
+                        'keluar' => 'Absen Keluar',
                     ])
                     ->label('Tipe Absen')
                     ->required()
@@ -45,20 +47,20 @@ class AttendanceResource extends Resource
 
                     TimePicker::make('time_in')
                         ->label('Waktu Absen Masuk')
-                        ->hidden(fn ($get) => $get('absen_type') !== 'time_in')
+                        ->hidden(fn ($get) => $get('absen_type') !== 'masuk')
                         ->required()->afterStateUpdated(function ($state, $set, $get) {
-                            if ($get('time_out')) { // Jika time_out sudah diisi, kosongkan time_in
-                                $set('time_in', null);
+                            if ($get('masuk')) {
+                                $set('keluar', null);
                             }
                         }),
 
                     TimePicker::make('time_out')
                         ->label('Waktu Absen Keluar')
-                        ->hidden(fn ($get) => $get('absen_type') !== 'time_out')
+                        ->hidden(fn ($get) => $get('absen_type') !== 'keluar')
                         ->required()
                         ->afterStateUpdated(function ($state, $set, $get) {
-                            if ($get('time_in')) { // Jika time_in sudah diisi, kosongkan time_out
-                                $set('time_out', null);
+                            if ($get('keluar')) {
+                                $set('masuk', null);
                             }
                         }),
 
@@ -76,13 +78,19 @@ class AttendanceResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('user.username')->label('Nama Pengguna')->sortable()->searchable(),
+                TextColumn::make('date')->label('Tanggal')->date()->sortable()->searchable(),
+                TextColumn::make('absen_type')->label('Tipe Absen')->sortable()->searchable(),
+                TextColumn::make('time_in')->label('Waktu Absen Masuk')->sortable()->searchable()->default('-'),
+                TextColumn::make('time_out')->label('Waktu Absen Keluar')->sortable()->searchable()->default('-'),
+                TextColumn::make('status')->label('Status Absen')->sortable()->searchable(),
             ])
             ->filters([
                 //
             ])
             ->actions([
                 EditAction::make(),
+                DeleteAction::make(),
             ])
             ->bulkActions([
                 BulkActionGroup::make([
@@ -94,7 +102,7 @@ class AttendanceResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+
         ];
     }
 

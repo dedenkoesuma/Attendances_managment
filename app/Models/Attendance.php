@@ -17,4 +17,8 @@ class Attendance extends Model
     ];
     protected $guarded = ['id'];
     use HasFactory;
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }
