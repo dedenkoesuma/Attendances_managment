@@ -9,6 +9,10 @@ use Filament\Resources\Pages\EditRecord;
 class EditAttendance extends EditRecord
 {
     protected static string $resource = AttendanceResource::class;
+    protected function mutateFormDataBeforeSave(array $data): array
+    {
+        return $data;
+    }
 
     protected function getHeaderActions(): array
     {

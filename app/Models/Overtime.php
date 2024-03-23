@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Overtime extends Model
 {
     protected $fillable = [
+        'user_id',
         'date',
         'reason',
         'attachment',

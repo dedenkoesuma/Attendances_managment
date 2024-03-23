@@ -19,8 +19,8 @@ return new class extends Migration
             $table->string('attachment');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->unsignedBigInteger('leaves_types_id');
-            $table->foreign('leaves_types_id')->references('id')->on('leaves_types')->onDelete('cascade');
+            $table->unsignedBigInteger('leave_types_id');
+            $table->foreign('leave_types_id')->references('id')->on('leave_types')->onDelete('cascade');
             $table->timestamps();
         });
     }
