@@ -16,5 +16,14 @@ class Leave extends Model
         'attachment',
     ];
     protected $guarded = ['id'];
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function leaveType()
+    {
+        return $this->belongsTo(LeaveType::class, 'leave_types_id');
+    }
     use HasFactory;
 }

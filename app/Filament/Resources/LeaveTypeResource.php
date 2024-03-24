@@ -12,6 +12,9 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
+use Filament\Tables\Columns\TextColumn;
 
 class LeaveTypeResource extends Resource
 {
@@ -23,7 +26,9 @@ class LeaveTypeResource extends Resource
     {
         return $form
             ->schema([
-                //
+                TextInput::make('leaves_type')->label('Jenis Cuti')->required(),
+                TextArea::make('description')->label('Keterangan')->autosize()->required(),
+                TextInput::make('quota')->label('Maksimal Waktu Cuti(PerHari)')->required()->numeric(),
             ]);
     }
 
@@ -31,18 +36,16 @@ class LeaveTypeResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('leaves_type')->label('Jenis Cuti')->searchable()->sortable(),
+                TextColumn::make('quota')->label('Maksimal Cuti(PerHari)')->searchable()->sortable(),
+                TextColumn::make('description')->label('Deksripsi Cuti')->searchable()->sortable()
             ])
             ->filters([
                 //
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-            ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                Tables\Actions\DeleteAction::make(),
             ]);
     }
 

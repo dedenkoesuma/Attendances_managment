@@ -8,10 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class LeaveType extends Model
 {
     protected $fillable = [
-        'start_date',
-        'end_date',
-        'reason',
-        'attachment',
+        'leaves_type',
+        'description',
+        'quota',
     ];
     protected $guarded = ['id'];
     use HasFactory;
