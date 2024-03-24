@@ -15,9 +15,9 @@ class EditAttendance extends EditRecord
     {
         return $data;
     }
-    protected function afterSave(): void
+    protected function getRedirectUrl(): string
     {
-        $this->redirect(AttendanceResource::getUrl('index'));
+        return $this->getResource()::getUrl('index');
     }
 
     protected function getHeaderActions(): array

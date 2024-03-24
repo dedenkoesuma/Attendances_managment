@@ -12,6 +12,11 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\FileUpload;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ImageColumn;
 
 class OvertimeResource extends Resource
 {
@@ -23,7 +28,16 @@ class OvertimeResource extends Resource
     {
         return $form
             ->schema([
-                //
+                DatePicker::make('date')
+                    ->label('Tanggal Lembur')
+                    ->required(),
+                Textarea::make('reason')
+                    ->label('Alasan/Keterangan Lembur')
+                    ->autosize()
+                    ->required(),
+                FileUpload::make('attachment')
+                ->label('Sertakan Lampiran/Bukti Lembur')
+                ->preserveFilenames(),
             ]);
     }
 
@@ -31,13 +45,16 @@ class OvertimeResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('user.username')->label('Nama Pengguna')->sortable()->searchable(),
+                TextColumn::make('reason')->label('Alasan/Keterangan Lembur')->sortable()->searchable(),
+                ImageColumn::make('attachment')->label('Lampiran/Bukti Lembur')->visibility('private')->sortable()->searchable()
             ])
             ->filters([
                 //
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
