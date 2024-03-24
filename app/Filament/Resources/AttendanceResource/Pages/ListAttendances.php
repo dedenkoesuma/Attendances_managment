@@ -5,6 +5,7 @@ namespace App\Filament\Resources\AttendanceResource\Pages;
 use App\Filament\Resources\AttendanceResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
+use Filament\Pages\Actions\Action;
 
 class ListAttendances extends ListRecords
 {
@@ -14,6 +15,10 @@ class ListAttendances extends ListRecords
     {
         return [
             Actions\CreateAction::make(),
+            Action::make('exportCsv')
+            ->label('Export CSV')
+            ->url(route('attendance_reports.export'))
+            ->color('success')
         ];
     }
 }
