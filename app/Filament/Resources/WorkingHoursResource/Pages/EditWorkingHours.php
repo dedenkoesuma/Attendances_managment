@@ -5,6 +5,7 @@ namespace App\Filament\Resources\WorkingHoursResource\Pages;
 use App\Filament\Resources\WorkingHoursResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
+use Filament\Pages\Actions\Action;
 
 class EditWorkingHours extends EditRecord
 {
@@ -14,6 +15,7 @@ class EditWorkingHours extends EditRecord
     {
         return [
             Actions\DeleteAction::make(),
+            Action::make('back')->label(__('Back'))->url(WorkingHoursResource::getUrl('index')),
         ];
     }
 }

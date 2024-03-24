@@ -12,6 +12,9 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\TimePicker;
+use Filament\Tables\Columns\TextColumn;
 
 class WorkingHoursResource extends Resource
 {
@@ -23,7 +26,17 @@ class WorkingHoursResource extends Resource
     {
         return $form
             ->schema([
-                //
+                TextInput::make('day')
+                ->label('Hari Kerja')
+                ->required(),
+
+                TimePicker::make('start_time')
+                ->label('Jam Masuk Kerja')
+                ->required(),
+
+                TimePicker::make('end_time')
+                ->label('Jam Keluar Kerja')
+                ->required(),
             ]);
     }
 
@@ -31,13 +44,16 @@ class WorkingHoursResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('day')->label('Hari Kerja')->sortable()->searchable(),
+                TextColumn::make('start_time')->label('Jam Masuk')->sortable()->searchable(),
+                TextColumn::make('end_time')->label('Jam Keluar')->sortable()->searchable(),
             ])
             ->filters([
                 //
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

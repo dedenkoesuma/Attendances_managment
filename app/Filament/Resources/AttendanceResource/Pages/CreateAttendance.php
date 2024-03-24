@@ -15,9 +15,9 @@ class CreateAttendance extends CreateRecord
         $data['user_id'] = auth()->id();
         return $data;
     }
-    protected function afterSave(): void
+    protected function getRedirectUrl(): string
     {
-        $this->redirect(AttendanceResource::getUrl('index'));
+        return $this->getResource()::getUrl('index');
     }
 
     protected function getHeaderActions(): array
