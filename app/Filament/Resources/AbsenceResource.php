@@ -23,6 +23,8 @@ class AbsenceResource extends Resource
     protected static ?string $model = Absence::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-x-circle';
+    protected static ?string $navigationGroup = 'Attendance Managment';
+    protected static ?int $navigationSort = 4;
 
     public static function form(Form $form): Form
     {

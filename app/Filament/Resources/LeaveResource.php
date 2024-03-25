@@ -29,6 +29,8 @@ class LeaveResource extends Resource
     protected static ?string $model = Leave::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-calendar';
+    protected static ?string $navigationGroup = 'Attendance Managment';
+    protected static ?int $navigationSort = 5;
 
     public static function form(Form $form): Form
     {

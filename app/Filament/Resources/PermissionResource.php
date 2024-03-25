@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\EmployeeProfileResource\Pages;
-use App\Filament\Resources\EmployeeProfileResource\RelationManagers;
-use App\Models\EmployeeProfile;
+use App\Filament\Resources\PermissionResource\Pages;
+use App\Filament\Resources\PermissionResource\RelationManagers;
+use App\Models\Permission;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -12,18 +12,26 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Forms\Components\TextInput;
+use Filament\Tables\Columns\TextColumn;
 
-class EmployeeProfileResource extends Resource
+class PermissionResource extends Resource
 {
-    protected static ?string $model = EmployeeProfile::class;
+    protected static ?string $model = Permission::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-identification';
+    protected static ?string $navigationIcon = 'heroicon-o-key';
+    protected static ?int $navigationSort = 3;
+    protected static ?string $navigationGroup = 'Settings';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                //
+                TextInput::make('name')
+                    ->minLength(2)
+                    ->maxLength(255)
+                    ->required()
+                    ->unique(ignoreRecord: true)
             ]);
     }
 
@@ -31,13 +39,15 @@ class EmployeeProfileResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('name')->searchable()->sortable(),
+
             ])
             ->filters([
                 //
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -56,9 +66,9 @@ class EmployeeProfileResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListEmployeeProfiles::route('/'),
-            'create' => Pages\CreateEmployeeProfile::route('/create'),
-            'edit' => Pages\EditEmployeeProfile::route('/{record}/edit'),
+            'index' => Pages\ListPermissions::route('/'),
+            'create' => Pages\CreatePermission::route('/create'),
+            'edit' => Pages\EditPermission::route('/{record}/edit'),
         ];
     }
 }
