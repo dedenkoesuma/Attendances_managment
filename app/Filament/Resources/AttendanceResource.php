@@ -93,11 +93,6 @@ class AttendanceResource extends Resource
             ->actions([
                 EditAction::make(),
                 DeleteAction::make(),
-            ])
-            ->bulkActions([
-                BulkActionGroup::make([
-                    DeleteBulkAction::make(),
-                ]),
             ]);
     }
 
@@ -115,5 +110,12 @@ class AttendanceResource extends Resource
             'create' => Pages\CreateAttendance::route('/create'),
             'edit' => Pages\EditAttendance::route('/{record}/edit'),
         ];
+    }
+    public static function getEloquentQuery(): Builder
+    {
+        if(auth()->user()->hasRole('Admin')) {
+            return parent::getEloquentQuery();
+        }
+        return parent::getEloquentQuery()->whereBelongsTo(auth()->user());
     }
 }
